@@ -1,0 +1,149 @@
+definitions:
+  model.Auth:
+    properties:
+      avatar:
+        type: string
+      createTime:
+        type: string
+      creatorId:
+        type: string
+      deleted:
+        type: boolean
+      id:
+        type: integer
+      lastLoginIp:
+        type: string
+      merchantCode:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      roleId:
+        type: string
+      status:
+        type: boolean
+      telephone:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/admin/auth/add:
+    post:
+      description: content 新增用户，不包括全权限
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Auth'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Auth'
+      summary: 新增用户
+      tags:
+      - Admin
+  /api/v1/admin/auth/all:
+    get:
+      description: 获取所有auth
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 获取所有auth
+      tags:
+      - Admin
+  /api/v1/admin/auth/del/{id}:
+    delete:
+      description: 删除Auth
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 更新的目标auth id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 删除Auth
+      tags:
+      - Admin
+  /api/v1/admin/auth/update/{id}:
+    put:
+      description: content 修改用户名或密码
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 更新的目标auth id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Auth'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Auth'
+      summary: 更新Auth
+      tags:
+      - Admin
+  /api/v1/admin/auth/verify/{user}/{pwd}:
+    get:
+      description: 获取所有auth
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 用户名
+        in: path
+        name: user
+        required: true
+        type: string
+      - description: 密码
+        in: path
+        name: pwd
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 获取所有auth
+      tags:
+      - Admin
+swagger: "2.0"

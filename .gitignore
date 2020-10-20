@@ -1,0 +1,5 @@
+*.db
+*.tar.gz
+message
+.vscode/
+.scannerwork
