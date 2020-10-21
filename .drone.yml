@@ -5,6 +5,7 @@ steps:
 - name: test
   image: golang
   commands:
+  - go env -w GOPROXY=https://goproxy.cn,direct
   - go version
   - go test
   - go build
