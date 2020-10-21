@@ -5,5 +5,6 @@ steps:
 - name: test
   image: golang
   commands:
+  - go version
   - go test
   - go build
