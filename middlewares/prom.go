@@ -76,8 +76,6 @@ func PromHandler(handler http.Handler) gin.HandlerFunc {
 
 // 默认prometheus监控+自定义监控
 func RegisterPrometheusMiddleware(router *gin.Engine, isauth bool) {
-	flag.Parse()
-
 	start := time.Now()
 
 	oscillationFactor := func() float64 {

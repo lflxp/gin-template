@@ -26,4 +26,6 @@ func PreGinServe(r *gin.Engine) {
 
 	// 注册admin接口
 	controller.RegisterAdmin(r)
+	// 注册demo接口
+	controller.RegisterDemo(r)
 }

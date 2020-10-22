@@ -174,6 +174,145 @@
                     }
                 }
             }
+        },
+        "/api/v1/demo/add": {
+            "post": {
+                "description": "新增记录，只针对持久化数据",
+                "tags": [
+                    "Demo"
+                ],
+                "summary": "新增Demo记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query"
+                    },
+                    {
+                        "description": "数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Demo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/demo/del/{id}": {
+            "delete": {
+                "description": "删除记录",
+                "tags": [
+                    "Demo"
+                ],
+                "summary": "删除Demo记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "要删除的id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/demo/get": {
+            "get": {
+                "description": "获取value，逐级数据查询",
+                "tags": [
+                    "Demo"
+                ],
+                "summary": "查询指定key的值",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "查询key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Demo"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/demo/put/{id}": {
+            "put": {
+                "description": "修改指定id的内容",
+                "tags": [
+                    "Demo"
+                ],
+                "summary": "修改Demo记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "更新的id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Demo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -221,6 +360,41 @@
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Demo": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "extend": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "string"
+                },
+                "production": {
+                    "type": "string"
+                },
+                "serial": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "zoom": {
                     "type": "string"
                 }
             }

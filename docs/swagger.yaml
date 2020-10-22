@@ -31,6 +31,29 @@ definitions:
     - password
     - username
     type: object
+  model.Demo:
+    properties:
+      company:
+        type: string
+      count:
+        type: string
+      country:
+        type: string
+      extend:
+        type: string
+      id:
+        type: integer
+      items:
+        type: string
+      production:
+        type: string
+      serial:
+        type: string
+      uuid:
+        type: string
+      zoom:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -146,4 +169,95 @@ paths:
       summary: 获取所有auth
       tags:
       - Admin
+  /api/v1/demo/add:
+    post:
+      description: 新增记录，只针对持久化数据
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Demo'
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 新增Demo记录
+      tags:
+      - Demo
+  /api/v1/demo/del/{id}:
+    delete:
+      description: 删除记录
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 要删除的id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 删除Demo记录
+      tags:
+      - Demo
+  /api/v1/demo/get:
+    get:
+      description: 获取value，逐级数据查询
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 查询key
+        in: query
+        name: key
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Demo'
+      summary: 查询指定key的值
+      tags:
+      - Demo
+  /api/v1/demo/put/{id}:
+    put:
+      description: 修改指定id的内容
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: 更新的id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Demo'
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 修改Demo记录
+      tags:
+      - Demo
 swagger: "2.0"
