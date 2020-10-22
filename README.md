@@ -9,6 +9,7 @@
         * [x] cors 跨域插件
         * [x] norouter 404插件
         * [x] prom prometheus监控插件
+            * [x] 自定义prometheus metrics
         * [x] swagger 接口插件
         * [ ] jwt 插件
         * [ ] sso 单点登录插件
@@ -16,6 +17,10 @@
     * [x] model，统一模型管理文件集
     * [x] router，路由注册模块和插件注册模块
     * [x] utils，功能组件模块
+        * [x] Xorm 工具
+            * [x] Sqlite3
+        * [x] 缓存
+            * [x] ConcurrentMap
     * [x] main.go 项目启动入口文件
 * [ ] 内置前端界面管理模块
     * [ ] 前端动态页面权限
