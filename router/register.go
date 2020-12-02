@@ -2,7 +2,9 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lflxp/gin-template/controller"
+	"github.com/lflxp/gin-template/controller/admin"
+	"github.com/lflxp/gin-template/controller/auth"
+	"github.com/lflxp/gin-template/controller/demo"
 	_ "github.com/lflxp/gin-template/docs"
 	"github.com/lflxp/gin-template/middlewares"
 	log "github.com/sirupsen/logrus"
@@ -24,8 +26,10 @@ func PreGinServe(r *gin.Engine) {
 	// 404
 	r.NoRoute(middlewares.NoRouteHandler)
 
+	// 获取登录token
+	r.POST("/auth", auth.Auth)
 	// 注册admin接口
-	controller.RegisterAdmin(r)
+	admin.RegisterAdmin(r)
 	// 注册demo接口
-	controller.RegisterDemo(r)
+	demo.RegisterDemo(r)
 }

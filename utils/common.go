@@ -16,7 +16,17 @@ import (
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/astaxie/beego/validation"
 )
+
+func MarkErrors(errors []*validation.Error) {
+	for _, err := range errors {
+		log.Println(err.Key, err.Message)
+	}
+
+	return
+}
 
 // 渲染模板
 func ApplyTemplate(temp string, data map[string]interface{}) (string, error) {
