@@ -4,3 +4,4 @@ message
 .vscode/
 .scannerwork
 gin-template
+logs/

@@ -14,32 +14,31 @@ import (
 	"github.com/Anderson-Lu/gofasion/gofasion"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
-	inject "github.com/lflxp/gin-template/middlewares"
 	"github.com/unknwon/com"
 )
 
-// @Summary   获取所有角色
-// @Tags role
+// @Summary   获取所有菜单
+// @Tags menu
 // @Accept json
 // @Produce  json
 // @Success 200 {string} json "{ "code": 200, "data": {}, "msg": "ok" }"
-// @Router /api/v1/roles  [GET]
-func GetRoles(c *gin.Context) {
+// @Router /api/v1/menus  [GET]
+func GetMenus(c *gin.Context) {
 	appG := app.Gin{C: c}
 
-	RoleService := service.Role{
+	menuService := service.Menu{
 		ID:       com.StrTo(c.Query("id")).MustInt(),
 		PageNum:  utils.GetPage(c),
 		PageSize: setting.AppSetting.PageSize,
 	}
 
-	total, err := RoleService.Count()
+	total, err := menuService.Count()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_COUNT_FAIL, nil)
 		return
 	}
 
-	articles, err := RoleService.GetAll()
+	articles, err := menuService.GetAll()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_GET_S_FAIL, nil)
 		return
@@ -52,83 +51,88 @@ func GetRoles(c *gin.Context) {
 	appG.Response(http.StatusOK, e.SUCCESS, data)
 }
 
-// @Summary   增加角色
-// @Tags role
+// @Summary   增加菜单
+// @Tags menu
 // @Accept json
 // @Produce  json
-// @Param   body  body   model.Role   true "body"
+// @Param   body  body   models.Menu   true "body"
 // @Success 200 {string} json "{ "code": 200, "data": {}, "msg": "ok" }"
-// @Router /api/v1/roles  [POST]
-func AddRole(c *gin.Context) {
+// @Router /api/v1/menus  [POST]
+func AddMenu(c *gin.Context) {
 	var (
 		appG = app.Gin{C: c}
 	)
 	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	fsion := gofasion.NewFasion(string(dataByte))
-	name := fsion.Get("username").ValueStr()
-	menuId := com.StrTo(fsion.Get("menu_id").ValueInt()).MustInt()
+	name := fsion.Get("name").ValueStr()
+	type1 := fsion.Get("type").ValueStr()
+	path := fsion.Get("path").ValueStr()
+	method := fsion.Get("method").ValueStr()
 
 	valid := validation.Validation{}
-	valid.MaxSize(name, 100, "path").Message("名称最长为100字符")
+	valid.MaxSize(name, 100, "name").Message("最长为100字符")
+	valid.MaxSize(type1, 100, "type").Message("最长为100字符")
+	valid.MaxSize(path, 100, "path").Message("最长为100字符")
+	valid.MaxSize(method, 100, "method").Message("最长为100字符")
 
 	if valid.HasErrors() {
 		app.MarkErrors(valid.Errors)
 		appG.Response(http.StatusInternalServerError, e.ERROR_ADD_FAIL, nil)
 		return
 	}
-
-	RoleService := service.Role{
-		Name: name,
-		Menu: menuId,
+	menuService := service.Menu{
+		Name:   name,
+		Type:   type1,
+		Path:   path,
+		Method: method,
 	}
 
-	if id, err := RoleService.Add(); err != nil {
-
-		err = inject.Obj.Common.RoleAPI.LoadPolicy(id)
-		if err != nil {
-			appG.Response(http.StatusInternalServerError, e.ERROR_EDIT_FAIL, nil)
-			return
-		}
-		appG.Response(http.StatusOK, e.SUCCESS, nil)
-	} else {
+	if err := menuService.Add(); err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_ADD_FAIL, nil)
 		return
 	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, nil)
 
 }
 
-// @Summary   更新角色
-// @Tags role
+// @Summary   更新菜单
+// @Tags menu
 // @Accept json
 // @Produce  json
 // @Param  id  path  string true "id"
-// @Param   body  body   model.Role   true "body"
+// @Param   body  body   models.Menu   true "body"
 // @Success 200 {string} json "{ "code": 200, "data": {}, "msg": "ok" }"
-// @Router /api/v1/roles/:id  [PUT]
-func EditRole(c *gin.Context) {
+// @Router /api/v1/menus/:id  [PUT]
+func EditMenu(c *gin.Context) {
 	var (
 		appG = app.Gin{C: c}
 	)
+
 	id := com.StrTo(c.Param("id")).MustInt()
 	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	fsion := gofasion.NewFasion(string(dataByte))
-	name := fsion.Get("username").ValueStr()
-	menuId := com.StrTo(fsion.Get("menu_id").ValueInt()).MustInt()
+	name := fsion.Get("name").ValueStr()
+	path := fsion.Get("path").ValueStr()
+	method := fsion.Get("method").ValueStr()
 
 	valid := validation.Validation{}
-	valid.MaxSize(name, 100, "path").Message("名称最长为100字符")
+	valid.MaxSize(name, 100, "name").Message("最长为100字符")
+	valid.MaxSize(path, 100, "path").Message("最长为100字符")
+	valid.MaxSize(method, 100, "method").Message("最长为100字符")
+	valid.Min(id, 1, "id").Message("ID必须大于0")
 
 	if valid.HasErrors() {
 		app.MarkErrors(valid.Errors)
 		appG.Response(http.StatusInternalServerError, e.ERROR_ADD_FAIL, nil)
 		return
 	}
-	RoleService := service.Role{
-		ID:   id,
-		Name: name,
-		Menu: menuId,
+	menuService := service.Menu{
+		Name:   name,
+		Path:   path,
+		Method: method,
 	}
-	exists, err := RoleService.ExistByID()
+	exists, err := menuService.ExistByID()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_EXIST_FAIL, nil)
 		return
@@ -138,14 +142,7 @@ func EditRole(c *gin.Context) {
 		return
 	}
 
-	err = RoleService.Edit()
-	if err != nil {
-		appG.Response(http.StatusInternalServerError, e.ERROR_EDIT_FAIL, nil)
-		return
-	}
-
-	err = inject.Obj.Common.RoleAPI.LoadPolicy(id)
-
+	err = menuService.Edit()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_EDIT_FAIL, nil)
 		return
@@ -154,14 +151,14 @@ func EditRole(c *gin.Context) {
 	appG.Response(http.StatusOK, e.SUCCESS, nil)
 }
 
-// @Summary   删除角色
-// @Tags role
+// @Summary   删除菜单
+// @Tags menu
 // @Accept json
 // @Produce  json
 // @Param  id  path  string true "id"
 // @Success 200 {string} json "{ "code": 200, "data": {}, "msg": "ok" }"
-// @Router /api/v1/roles/:id  [DELETE]
-func DeleteRole(c *gin.Context) {
+// @Router /api/v1/menus/:id  [DELETE]
+func DeleteMenu(c *gin.Context) {
 	appG := app.Gin{C: c}
 	valid := validation.Validation{}
 	id := com.StrTo(c.Param("id")).MustInt()
@@ -173,8 +170,8 @@ func DeleteRole(c *gin.Context) {
 		return
 	}
 
-	RoleService := service.Role{ID: id}
-	exists, err := RoleService.ExistByID()
+	menuService := service.Menu{ID: id}
+	exists, err := menuService.ExistByID()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_EXIST_FAIL, nil)
 		return
@@ -183,14 +180,12 @@ func DeleteRole(c *gin.Context) {
 		appG.Response(http.StatusOK, e.ERROR_EXIST_FAIL, nil)
 		return
 	}
-	role, err := RoleService.Get()
-	err = RoleService.Delete()
+
+	err = menuService.Delete()
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_DELETE_FAIL, nil)
 		return
 	}
-
-	inject.Obj.Enforcer.DeleteUser(role.Name)
 
 	appG.Response(http.StatusOK, e.SUCCESS, nil)
 }

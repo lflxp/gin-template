@@ -8,6 +8,7 @@ import (
 	"github.com/lflxp/gin-template/controller/role"
 	_ "github.com/lflxp/gin-template/docs"
 	"github.com/lflxp/gin-template/middlewares"
+	jwt "github.com/lflxp/gin-template/middlewares"
 	"github.com/lflxp/gin-template/middlewares/permission"
 	log "github.com/sirupsen/logrus"
 )

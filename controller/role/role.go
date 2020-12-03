@@ -1,9 +1,10 @@
 package role
 
 import (
+	"io/ioutil"
 	"net/http"
 
-	"ginhub.com/lflxp/gin-template/middlewares"
+	inject "github.com/lflxp/gin-template/middlewares"
 
 	"github.com/Anderson-Lu/gofasion/gofasion"
 	"github.com/lflxp/gin-template/controller/service"
@@ -70,7 +71,7 @@ func GetRoles(c *gin.Context) {
 // @Success 200 {string} json "{ "code": 200, "data": {}, "msg": "ok" }"
 // @Router /api/v1/roles  [POST]
 func AddRole(c *gin.Context) {
-	dataByte, _ := ioutils.ReadAll(c.Request.Body)
+	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	fsion := gofasion.NewFasion(string(dataByte))
 	name := fsion.Get("username").ValueStr()
 	menuId := com.StrTo(fsion.Get("menu_id").ValueInt()).MustInt()
@@ -95,7 +96,7 @@ func AddRole(c *gin.Context) {
 
 	if id, err := RoleService.Add(); err != nil {
 
-		err = middlewares.Obj.Common.RoleAPI.LoadPolicy(id)
+		err = inject.Obj.Common.RoleAPI.LoadPolicy(id)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"code": http.StatusInternalServerError,
@@ -130,7 +131,7 @@ func AddRole(c *gin.Context) {
 // @Router /api/v1/roles/:id  [PUT]
 func EditRole(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
-	dataByte, _ := ioutils.ReadAll(c.Request.Body)
+	dataByte, _ := ioutil.ReadAll(c.Request.Body)
 	fsion := gofasion.NewFasion(string(dataByte))
 	name := fsion.Get("username").ValueStr()
 	menuId := com.StrTo(fsion.Get("menu_id").ValueInt()).MustInt()
@@ -249,7 +250,7 @@ func DeleteRole(c *gin.Context) {
 		return
 	}
 
-	middlewares.Obj.Enforcer.DeleteUser(role.Name)
+	inject.Obj.Enforcer.DeleteUser(role.Name)
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": http.StatusOK,
