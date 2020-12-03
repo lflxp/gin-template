@@ -18,183 +18,19 @@ var doc = `{
     "info": {
         "description": "{{.Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/admin/auth/add": {
-            "post": {
-                "description": "content 新增用户，不包括全权限",
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "新增用户",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "query"
-                    },
-                    {
-                        "description": "data",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Auth"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/admin/auth/all": {
-            "get": {
-                "description": "获取所有auth",
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "获取所有auth",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/admin/auth/del/{id}": {
-            "delete": {
-                "description": "删除Auth",
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "删除Auth",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新的目标auth id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/admin/auth/update/{id}": {
-            "put": {
-                "description": "content 修改用户名或密码",
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "更新Auth",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新的目标auth id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "data",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Auth"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/admin/auth/verify/{user}/{pwd}": {
-            "get": {
-                "description": "获取所有auth",
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "获取所有auth",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "用户名",
-                        "name": "user",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "密码",
-                        "name": "pwd",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/demo/add": {
             "post": {
                 "description": "新增记录，只针对持久化数据",
@@ -375,54 +211,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "model.Auth": {
-            "type": "object",
-            "required": [
-                "password",
-                "username"
-            ],
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "createTime": {
-                    "type": "string"
-                },
-                "creatorId": {
-                    "type": "string"
-                },
-                "deleted": {
-                    "type": "boolean"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "lastLoginIp": {
-                    "type": "string"
-                },
-                "merchantCode": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "roleId": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "boolean"
-                },
-                "telephone": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
         "model.AuthSwag": {
             "type": "object",
             "properties": {
@@ -469,6 +257,13 @@ var doc = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -483,12 +278,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
+	Version:     "1.0",
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "Gin Template",
+	Description: "Gin API 接口模板服务",
 }
 
 type s struct{}

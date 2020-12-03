@@ -6,11 +6,13 @@ import (
 	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lflxp/gin-template/middlewares"
 	"github.com/lflxp/gin-template/model"
 )
 
 func RegisterDemo(router *gin.Engine) {
 	demoGroup := router.Group("/api/v1/demo")
+	demoGroup.Use(middlewares.JWT())
 	{
 		demoGroup.GET("/get", getDemo)
 		demoGroup.POST("/add", addDemo)

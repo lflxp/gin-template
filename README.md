@@ -12,6 +12,8 @@
             * [x] 自定义prometheus metrics
         * [x] swagger 接口插件
         * [ ] jwt 插件
+            * [ ] github.com/go-admin-team/go-admin
+            * [ ] github.com/hequan2017/go-admin
         * [ ] sso 单点登录插件
         * [ ] cas 权限认证插件
     * [x] model，统一模型管理文件集

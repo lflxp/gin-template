@@ -10,6 +10,19 @@ import (
 	"github.com/casbin/casbin"
 )
 
+// func init() {
+// 	admin := User{
+// 		Username: "admin",
+// 		Password: "admin",
+// 	}
+
+// 	id, err := admin.Add()
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	fmt.Printf("New Add Admin: %d\n", id)
+// }
+
 type User struct {
 	ID       int
 	Username string

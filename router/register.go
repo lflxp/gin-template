@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lflxp/gin-template/controller/admin"
 	"github.com/lflxp/gin-template/controller/auth"
 	"github.com/lflxp/gin-template/controller/demo"
 	_ "github.com/lflxp/gin-template/docs"
@@ -29,7 +28,7 @@ func PreGinServe(r *gin.Engine) {
 	// 获取登录token
 	r.POST("/auth", auth.Auth)
 	// 注册admin接口
-	admin.RegisterAdmin(r)
+	// admin.RegisterAdmin(r)
 	// 注册demo接口
 	demo.RegisterDemo(r)
 }
