@@ -11,6 +11,7 @@
         * [x] prom prometheus监控插件
             * [x] 自定义prometheus metrics
         * [x] swagger 接口插件
+            * [ ] https://github.com/swaggo/swag/blob/master/README_zh-CN.md
         * [ ] jwt 插件
             * [ ] github.com/go-admin-team/go-admin
             * [ ] github.com/hequan2017/go-admin
