@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	user_service "github.com/lflxp/gin-template/controller/service"
+	_ "github.com/lflxp/gin-template/model"
 	"github.com/lflxp/gin-template/utils"
 	"github.com/lflxp/gin-template/utils/e"
 )
@@ -21,7 +22,7 @@ type auth struct {
 // @Tags auth
 // @Accept json
 // @Produce  json
-// @Param   body  body   models.AuthSwag   true "body"
+// @Param   body  body   model.AuthSwag   true "body"
 // @Success 200 {string} json "{ "code": 200, "data": {}, "msg": "ok" }"
 // @Failure 400 {string} json
 // @Router /auth  [POST]

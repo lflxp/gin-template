@@ -22,6 +22,7 @@ require (
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/orcaman/concurrent-map v0.0.0-20190826125027-8c72a8bb44f6
 	github.com/prometheus/client_golang v1.8.0
+	github.com/silenceper/gowatch v0.0.0-20201011022207-2725a3e5b521 // indirect
 	github.com/sirupsen/logrus v1.7.0
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0

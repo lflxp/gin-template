@@ -31,6 +31,13 @@ definitions:
     - password
     - username
     type: object
+  model.AuthSwag:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   model.Demo:
     properties:
       company:
@@ -260,4 +267,29 @@ paths:
       summary: 修改Demo记录
       tags:
       - Demo
+  /auth:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthSwag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{ "code": 200, "data": {}, "msg": "ok" }'
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 获取登录token 信息
+      tags:
+      - auth
 swagger: "2.0"
