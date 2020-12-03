@@ -5,7 +5,8 @@ import (
 	"log"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	// _ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
 	"time"
 
@@ -23,11 +24,13 @@ type Model struct {
 
 func init() {
 	var err error
-	db, err = gorm.Open(utils.DatabaseSetting.Type, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		utils.DatabaseSetting.User,
-		utils.DatabaseSetting.Password,
-		utils.DatabaseSetting.Host,
-		utils.DatabaseSetting.Name))
+	// db, err = gorm.Open(utils.DatabaseSetting.Type, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	// 	utils.DatabaseSetting.User,
+	// 	utils.DatabaseSetting.Password,
+	// 	utils.DatabaseSetting.Host,
+	// 	utils.DatabaseSetting.Name))
+
+	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
 		log.Fatalf("models.Setup err: %v", err)
 	}

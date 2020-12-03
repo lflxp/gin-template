@@ -4,8 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lflxp/gin-template/controller/auth"
 	"github.com/lflxp/gin-template/controller/demo"
+	"github.com/lflxp/gin-template/controller/menu"
+	"github.com/lflxp/gin-template/controller/role"
 	_ "github.com/lflxp/gin-template/docs"
 	"github.com/lflxp/gin-template/middlewares"
+	"github.com/lflxp/gin-template/middlewares/permission"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -31,4 +34,28 @@ func PreGinServe(r *gin.Engine) {
 	// admin.RegisterAdmin(r)
 	// 注册demo接口
 	demo.RegisterDemo(r)
+
+	apiV1 := r.Group("/api/v1")
+
+	apiV1.Use(jwt.JWT()) // token 验证
+	apiV1.GET("/userInfo", auth.GetUserInfo)
+	apiV1.Use(permission.CasbinMiddleware()) // 权限  验证
+
+	{
+
+		apiV1.GET("/menus", menu.GetMenus)
+		apiV1.POST("/menus", menu.AddMenu)
+		apiV1.PUT("/menus/:id", menu.EditMenu)
+		apiV1.DELETE("/menus/:id", menu.DeleteMenu)
+
+		apiV1.GET("/roles", role.GetRoles)
+		apiV1.POST("/roles", role.AddRole)
+		apiV1.PUT("/roles/:id", role.EditRole)
+		apiV1.DELETE("/roles/:id", role.DeleteRole)
+
+		apiV1.GET("/users", auth.GetUsers)
+		apiV1.POST("/users", auth.AddUser)
+		apiV1.PUT("/users/:id", auth.EditUser)
+		apiV1.DELETE("/users/:id", auth.DeleteUser)
+	}
 }
