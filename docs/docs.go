@@ -18,7 +18,14 @@ var doc = `{
     "info": {
         "description": "{{.Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -195,6 +202,137 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/admin/claims/add": {
+            "post": {
+                "description": "content 新增用户，不包括全权限",
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "新增用户",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Claims"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Claims"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/claims/all": {
+            "get": {
+                "description": "获取当前用户所有claims",
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "获取当前用户所有claims",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/claims/del/{id}": {
+            "delete": {
+                "description": "删除Claims",
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "删除Claims",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "更新的目标claims id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/claims/get": {
+            "get": {
+                "description": "获取当前用户所有claims",
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "获取当前用户所有claims",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "指定用户",
+                        "name": "auth",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/claims/update/{id}": {
+            "put": {
+                "description": "content 修改用户名或密码",
+                "tags": [
+                    "Claims"
+                ],
+                "summary": "更新Claims",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "更新的目标claims id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Claims"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Claims"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/demo/add": {
             "post": {
                 "description": "新增记录，只针对持久化数据",
@@ -333,6 +471,40 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/auth/login": {
+            "post": {
+                "description": "登陆、swagger、注销、404等",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "通用接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query"
+                    },
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Auth"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -384,6 +556,26 @@ var doc = `{
                 }
             }
         },
+        "model.Claims": {
+            "type": "object",
+            "properties": {
+                "auth": {
+                    "description": "对应Auth =\u003e Username  eg: admin",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "权限类型 eg: nav",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "权限指 eg: dashboard",
+                    "type": "string"
+                }
+            }
+        },
         "model.Demo": {
             "type": "object",
             "properties": {
@@ -419,6 +611,13 @@ var doc = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -433,12 +632,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
-	Host:        "",
+	Version:     "1.0",
+	Host:        "127.0.0.1:8888",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "Gin Template",
+	Description: "Gin API 接口模板服务",
 }
 
 type s struct{}

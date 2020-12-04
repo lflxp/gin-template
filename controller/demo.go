@@ -6,11 +6,14 @@ import (
 	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
+	newJwt "github.com/lflxp/gin-template/middlewares/jwt"
 	"github.com/lflxp/gin-template/model"
 )
 
 func RegisterDemo(router *gin.Engine) {
+	authMiddleware := newJwt.NewGinJwtMiddlewares(newJwt.AllUserAuthorizator)
 	demoGroup := router.Group("/api/v1/demo")
+	demoGroup.Use(authMiddleware.MiddlewareFunc())
 	{
 		demoGroup.GET("/get", getDemo)
 		demoGroup.POST("/add", addDemo)

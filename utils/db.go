@@ -12,7 +12,7 @@ var Engine *xorm.Engine
 
 func init() {
 	var err error
-	Engine, err = xorm.NewEngine("sqlite3", "./gateway.db")
+	Engine, err = xorm.NewEngine("sqlite3", "./template.db")
 	if err != nil {
 		log.Error(err.Error())
 	}

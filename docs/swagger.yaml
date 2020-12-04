@@ -31,6 +31,20 @@ definitions:
     - password
     - username
     type: object
+  model.Claims:
+    properties:
+      auth:
+        description: '对应Auth => Username  eg: admin'
+        type: string
+      id:
+        type: integer
+      type:
+        description: '权限类型 eg: nav'
+        type: string
+      value:
+        description: '权限指 eg: dashboard'
+        type: string
+    type: object
   model.Demo:
     properties:
       company:
@@ -54,8 +68,17 @@ definitions:
       zoom:
         type: string
     type: object
+host: 127.0.0.1:8888
 info:
-  contact: {}
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Gin API 接口模板服务
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Gin Template
+  version: "1.0"
 paths:
   /api/v1/admin/auth/add:
     post:
@@ -169,6 +192,91 @@ paths:
       summary: 获取所有auth
       tags:
       - Admin
+  /api/v1/admin/claims/add:
+    post:
+      description: content 新增用户，不包括全权限
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Claims'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Claims'
+      summary: 新增用户
+      tags:
+      - Claims
+  /api/v1/admin/claims/all:
+    get:
+      description: 获取当前用户所有claims
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 获取当前用户所有claims
+      tags:
+      - Claims
+  /api/v1/admin/claims/del/{id}:
+    delete:
+      description: 删除Claims
+      parameters:
+      - description: 更新的目标claims id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 删除Claims
+      tags:
+      - Claims
+  /api/v1/admin/claims/get:
+    get:
+      description: 获取当前用户所有claims
+      parameters:
+      - description: 指定用户
+        in: query
+        name: auth
+        type: string
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 获取当前用户所有claims
+      tags:
+      - Claims
+  /api/v1/admin/claims/update/{id}:
+    put:
+      description: content 修改用户名或密码
+      parameters:
+      - description: 更新的目标claims id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Claims'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Claims'
+      summary: 更新Claims
+      tags:
+      - Claims
   /api/v1/demo/add:
     post:
       description: 新增记录，只针对持久化数据
@@ -260,4 +368,31 @@ paths:
       summary: 修改Demo记录
       tags:
       - Demo
+  /auth/login:
+    post:
+      description: 登陆、swagger、注销、404等
+      parameters:
+      - description: token
+        in: query
+        name: token
+        type: string
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Auth'
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 通用接口
+      tags:
+      - Auth
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -6,12 +6,15 @@ import (
 	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
+	newJwt "github.com/lflxp/gin-template/middlewares/jwt"
 	"github.com/lflxp/gin-template/model"
 )
 
 func RegisterAdmin(router *gin.Engine) {
+	var authMiddleware = newJwt.NewGinJwtMiddlewares(newJwt.AllUserAuthorizator)
 	// auth CRUD
 	apiGroup := router.Group("/api/v1/admin")
+	apiGroup.Use(authMiddleware.MiddlewareFunc())
 	{
 		apiGroup.GET("/auth/all", GetAllAuth)
 		apiGroup.POST("/auth/add", AddAuth)

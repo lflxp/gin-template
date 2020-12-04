@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lflxp/gin-template/utils"
 	log "github.com/sirupsen/logrus"
@@ -9,7 +10,7 @@ import (
 
 func init() {
 	log.Info("初始化表 Login")
-	utils.Engine.Sync2(new(Auth))
+	utils.Engine.Sync2(new(Auth), new(Claims))
 	err := checkAdminUser()
 	if err != nil {
 		log.Error(err)
@@ -43,13 +44,11 @@ func checkAdminUser() error {
 	}
 
 	if !has {
-		tmp := utils.GetRandomSalt()
 		data.Username = "admin"
-		data.Password = utils.Jiami(tmp)
+		data.Password = utils.Jiami("admin")
 		data.RoleId = "admin"
 		data.Name = "管理员"
 		data.Status = true
-		log.Infof("admin用户不存在，随机创建密码为： %s", tmp)
 		num, err := AddAuth(data)
 		if err != nil {
 			return err
@@ -105,7 +104,7 @@ func AddAuth(data *Auth) (int64, error) {
 	if data.Username == "" || data.Password == "" {
 		return -1, errors.New("user or pwd is none")
 	}
-	data.Password = utils.Jiami(data.Password)
+	// data.Password = utils.Jiami(data.Password)
 	affected, err := utils.Engine.Insert(data)
 	return affected, err
 }
@@ -115,4 +114,98 @@ func DeleteAuth(id string) (int64, error) {
 	auth := new(Auth)
 	affected, err := utils.Engine.ID(id).Delete(auth)
 	return affected, err
+}
+
+// 用户权限表
+type Claims struct {
+	Id    int64  `json:"id"`
+	Auth  string `json:"auth" xorm:"varchar(255) unique(only)"`  // 对应Auth => Username  eg: admin
+	Type  string `json:"type" xorm:"varchar(255) unique(only)"`  // 权限类型 eg: nav
+	Value string `json:"value" xorm:"varchar(255) unique(only)"` // 权限指 eg: dashboard
+}
+
+// 查询用户权限
+func GetClaimsByAuthAndType(auth, types string) ([]Claims, error) {
+	data := make([]Claims, 0)
+	err := utils.Engine.Where("auth = ? and type = ?", auth, types).Desc("id").Find(&data)
+	return data, err
+}
+
+// 查询用户权限
+func GetClaimsByAuth(auth string) ([]Claims, error) {
+	data := make([]Claims, 0)
+	err := utils.Engine.Where("auth = ?", auth).Desc("id").Find(&data)
+	return data, err
+}
+
+// 查询所有权限
+func GetClaims() ([]Claims, error) {
+	data := make([]Claims, 0)
+	err := utils.Engine.Desc("id").Find(&data)
+	return data, err
+}
+
+// 新增用户权限
+func AddClaims(data *Claims) (int64, error) {
+	affected, err := utils.Engine.Insert(data)
+	return affected, err
+}
+
+// 删除用户权限
+func DeleteClaims(id string) (int64, error) {
+	c := new(Claims)
+	affected, err := utils.Engine.ID(id).Delete(c)
+	return affected, err
+}
+
+// 修改用户权限
+func UpdateClaims(id string, data map[string]interface{}) (int64, error) {
+	affected, err := utils.Engine.Table(new(Claims)).ID(id).Update(data)
+	return affected, err
+}
+
+// 用户表权限
+type User struct {
+	Auth     // 用户基本信息
+	Username string
+	Claims   []Claims `json:"claims"` // 接口权限
+	Role     Role     `json:"role"`   // 界面权限
+}
+
+func GetUser(username string) (*User, error) {
+	var auth Auth
+	user := &User{
+		Username: username,
+	}
+	has, err := utils.Engine.Where("username = ?", username).Get(&auth)
+	if err != nil {
+		return user, err
+	}
+	if has {
+		user.Auth = auth
+		user.Password = "******"
+		claims, err := GetClaimsByAuth(auth.Username)
+		if err != nil {
+			return user, err
+		}
+		user.Claims = claims
+		return user, nil
+	}
+	return user, errors.New(fmt.Sprintf("%s not such user", username))
+}
+
+func GetUserClaims(username string) ([]Claims, error) {
+	var auth Auth
+	has, err := utils.Engine.Where("username = ?", username).Get(&auth)
+	if err != nil {
+		return nil, err
+	}
+	if has {
+		claims, err := GetClaimsByAuth(auth.Username)
+		if err != nil {
+			return claims, err
+		}
+		return claims, nil
+	}
+	return nil, errors.New(fmt.Sprintf("%s not such user", username))
 }

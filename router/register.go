@@ -24,8 +24,15 @@ func PreGinServe(r *gin.Engine) {
 	// 404
 	r.NoRoute(middlewares.NoRouteHandler)
 
+	// 健康检查
+	r.GET("/health", middlewares.RegisterHealthMiddleware)
+
 	// 注册admin接口
 	controller.RegisterAdmin(r)
 	// 注册demo接口
 	controller.RegisterDemo(r)
+	// 注册claims接口
+	controller.RegisterClaims(r)
+	// 注册auth接口
+	controller.RegisterAuth(r)
 }

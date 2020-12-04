@@ -28,6 +28,22 @@ func init() {
 	log.SetLevel(log.DebugLevel)
 }
 
+// @title Gin Template
+// @version 1.0
+// @description Gin API 接口模板服务
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1:8888
+// @BasePath
+
+// @securityDefinitions.apikey Bearer
+// @in header
+// @name Authorization
 func main() {
 	flag.Parse()
 	router.Run(host, port)
