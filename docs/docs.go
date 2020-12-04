@@ -33,6 +33,11 @@ var doc = `{
     "paths": {
         "/api/v1/admin/auth/add": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "content 新增用户，不包括全权限",
                 "tags": [
                     "Admin"
@@ -67,6 +72,11 @@ var doc = `{
         },
         "/api/v1/admin/auth/all": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "获取所有auth",
                 "tags": [
                     "Admin"
@@ -92,6 +102,11 @@ var doc = `{
         },
         "/api/v1/admin/auth/del/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "删除Auth",
                 "tags": [
                     "Admin"
@@ -124,6 +139,11 @@ var doc = `{
         },
         "/api/v1/admin/auth/update/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "content 修改用户名或密码",
                 "tags": [
                     "Admin"
@@ -165,6 +185,11 @@ var doc = `{
         },
         "/api/v1/admin/auth/verify/{user}/{pwd}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "获取所有auth",
                 "tags": [
                     "Admin"
@@ -204,6 +229,11 @@ var doc = `{
         },
         "/api/v1/admin/claims/add": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "content 新增用户，不包括全权限",
                 "tags": [
                     "Claims"
@@ -232,6 +262,11 @@ var doc = `{
         },
         "/api/v1/admin/claims/all": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "获取当前用户所有claims",
                 "tags": [
                     "Claims"
@@ -249,6 +284,11 @@ var doc = `{
         },
         "/api/v1/admin/claims/del/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "删除Claims",
                 "tags": [
                     "Claims"
@@ -275,6 +315,11 @@ var doc = `{
         },
         "/api/v1/admin/claims/get": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "获取当前用户所有claims",
                 "tags": [
                     "Claims"
@@ -300,6 +345,11 @@ var doc = `{
         },
         "/api/v1/admin/claims/update/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "content 修改用户名或密码",
                 "tags": [
                     "Claims"
@@ -335,6 +385,11 @@ var doc = `{
         },
         "/api/v1/demo/add": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "新增记录，只针对持久化数据",
                 "tags": [
                     "Demo"
@@ -369,6 +424,11 @@ var doc = `{
         },
         "/api/v1/demo/del/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "删除记录",
                 "tags": [
                     "Demo"
@@ -401,6 +461,11 @@ var doc = `{
         },
         "/api/v1/demo/get": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "获取value，逐级数据查询",
                 "tags": [
                     "Demo"
@@ -433,6 +498,11 @@ var doc = `{
         },
         "/api/v1/demo/put/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "修改指定id的内容",
                 "tags": [
                     "Demo"
@@ -472,8 +542,139 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/nav/add": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Nav POST ADD INTERFACE",
+                "tags": [
+                    "Page"
+                ],
+                "summary": "新增接口",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Nav"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Nav"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/nav/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "DELETE INTERFACE",
+                "tags": [
+                    "Page"
+                ],
+                "summary": "删除接口",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/nav/get": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GET获取所有模板",
+                "tags": [
+                    "Page"
+                ],
+                "summary": "Nav接口概要说明",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Nav"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/nav/put/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "UPDATE INTERFACE",
+                "tags": [
+                    "Page"
+                ],
+                "summary": "修改接口",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Nav"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "登陆、swagger、注销、404等",
                 "tags": [
                     "Auth"
@@ -496,6 +697,23 @@ var doc = `{
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "接口健康检查接口",
+                "tags": [
+                    "Health"
+                ],
+                "summary": "健康检查",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -610,10 +828,42 @@ var doc = `{
                     "type": "string"
                 }
             }
+        },
+        "model.Nav": {
+            "type": "object",
+            "properties": {
+                "component": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "redirect": {
+                    "type": "string"
+                },
+                "show": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
         }
     },
     "securityDefinitions": {
-        "Bearer": {
+        "ApiKeyAuth": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"

@@ -12,6 +12,7 @@
             * [x] 自定义prometheus metrics
         * [x] swagger 接口插件
         * [*] jwt 插件
+            * [*] Authroization: Bearer $TOEKN
         * [ ] sso 单点登录插件
         * [ ] cas 权限认证插件
     * [x] model，统一模型管理文件集
@@ -19,6 +20,9 @@
     * [x] utils，功能组件模块
         * [x] Xorm 工具
             * [x] Sqlite3
+            * [x] Mysql 
+            * [x] Pg
+            * [x] Redis
         * [x] 缓存
             * [x] ConcurrentMap
     * [x] main.go 项目启动入口文件

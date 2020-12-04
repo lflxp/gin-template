@@ -55,6 +55,7 @@ func RegisterAuth(router *gin.Engine) {
 // @Param token query string false "token"
 // @Param data body model.Auth true "data"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /auth/login [post]
 func Login(c *gin.Context) {
 	var authMiddleware = newJwt.NewGinJwtMiddlewares(newJwt.AllUserAuthorizator)

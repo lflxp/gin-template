@@ -68,6 +68,27 @@ definitions:
       zoom:
         type: string
     type: object
+  model.Nav:
+    properties:
+      component:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      parentId:
+        type: integer
+      path:
+        type: string
+      redirect:
+        type: string
+      show:
+        type: boolean
+      title:
+        type: string
+    type: object
 host: 127.0.0.1:8888
 info:
   contact:
@@ -99,6 +120,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Auth'
+      security:
+      - ApiKeyAuth: []
       summary: 新增用户
       tags:
       - Admin
@@ -115,6 +138,8 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 获取所有auth
       tags:
       - Admin
@@ -136,6 +161,8 @@ paths:
           description: OK
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 删除Auth
       tags:
       - Admin
@@ -163,6 +190,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Auth'
+      security:
+      - ApiKeyAuth: []
       summary: 更新Auth
       tags:
       - Admin
@@ -189,6 +218,8 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 获取所有auth
       tags:
       - Admin
@@ -207,6 +238,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Claims'
+      security:
+      - ApiKeyAuth: []
       summary: 新增用户
       tags:
       - Claims
@@ -218,6 +251,8 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 获取当前用户所有claims
       tags:
       - Claims
@@ -235,6 +270,8 @@ paths:
           description: OK
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 删除Claims
       tags:
       - Claims
@@ -251,6 +288,8 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 获取当前用户所有claims
       tags:
       - Claims
@@ -274,6 +313,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Claims'
+      security:
+      - ApiKeyAuth: []
       summary: 更新Claims
       tags:
       - Claims
@@ -296,6 +337,8 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 新增Demo记录
       tags:
       - Demo
@@ -317,6 +360,8 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 删除Demo记录
       tags:
       - Demo
@@ -338,6 +383,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Demo'
+      security:
+      - ApiKeyAuth: []
       summary: 查询指定key的值
       tags:
       - Demo
@@ -365,9 +412,88 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 修改Demo记录
       tags:
       - Demo
+  /api/v1/nav/add:
+    post:
+      description: Nav POST ADD INTERFACE
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Nav'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Nav'
+      security:
+      - ApiKeyAuth: []
+      summary: 新增接口
+      tags:
+      - Page
+  /api/v1/nav/delete/{id}:
+    delete:
+      description: DELETE INTERFACE
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 删除接口
+      tags:
+      - Page
+  /api/v1/nav/get:
+    get:
+      description: GET获取所有模板
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Nav'
+      security:
+      - ApiKeyAuth: []
+      summary: Nav接口概要说明
+      tags:
+      - Page
+  /api/v1/nav/put/{id}:
+    put:
+      description: UPDATE INTERFACE
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Nav'
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 修改接口
+      tags:
+      - Page
   /auth/login:
     post:
       description: 登陆、swagger、注销、404等
@@ -387,11 +513,24 @@ paths:
           description: success
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: 通用接口
       tags:
       - Auth
+  /health:
+    get:
+      description: 接口健康检查接口
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: 健康检查
+      tags:
+      - Health
 securityDefinitions:
-  Bearer:
+  ApiKeyAuth:
     in: header
     name: Authorization
     type: apiKey

@@ -41,7 +41,7 @@ func init() {
 // @host 127.0.0.1:8888
 // @BasePath
 
-// @securityDefinitions.apikey Bearer
+// @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
 func main() {

@@ -29,6 +29,7 @@ func RegisterClaims(router *gin.Engine) {
 // @Description 获取当前用户所有claims
 // @Tags Claims
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/claims/all [get]
 func GetAllClaims(c *gin.Context) {
 	data, err := model.GetClaims()
@@ -50,6 +51,7 @@ func GetAllClaims(c *gin.Context) {
 // @Tags Claims
 // @Param auth query string false "指定用户"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/claims/get [get]
 func GetAllClaimsByAuth(c *gin.Context) {
 	var (
@@ -90,6 +92,7 @@ func GetAllClaimsByAuth(c *gin.Context) {
 // @Tags Claims
 // @Param data body model.Claims true "data"
 // @Success 200 {object} model.Claims model.Claims{}
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/claims/add [post]
 func AddClaims(c *gin.Context) {
 	var data model.Claims
@@ -120,6 +123,7 @@ func AddClaims(c *gin.Context) {
 // @Param id path string true "更新的目标claims id"
 // @Param data body model.Claims true "data"
 // @Success 200 {object} model.Claims model.Claims{}
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/claims/update/{id} [put]
 func PutClaims(c *gin.Context) {
 	id := c.Params.ByName("id")
@@ -154,6 +158,7 @@ func PutClaims(c *gin.Context) {
 // @Tags Claims
 // @Param id path string true "更新的目标claims id"
 // @Success 200 {string} string success!
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/claims/del/{id} [delete]
 func DelClaims(c *gin.Context) {
 	id := c.Params.ByName("id")

@@ -28,6 +28,7 @@ func RegisterDemo(router *gin.Engine) {
 // @Param token query string false "token"
 // @Param key query string true "查询key"
 // @Success 200 {object} model.Demo model.Demo{}
+// @Security ApiKeyAuth
 // @Router /api/v1/demo/get [get]
 func getDemo(c *gin.Context) {
 	key, isok := c.GetQuery("key")
@@ -61,6 +62,7 @@ func getDemo(c *gin.Context) {
 // @Param token query string false "token"
 // @Param data body model.Demo true "数据"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/demo/add [post]
 func addDemo(c *gin.Context) {
 	var data model.Demo
@@ -92,6 +94,7 @@ func addDemo(c *gin.Context) {
 // @Param id path string true "更新的id"
 // @Param data body model.Demo true "数据"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/demo/put/{id} [put]
 func putDemo(c *gin.Context) {
 	id := c.Params.ByName("id")
@@ -128,6 +131,7 @@ func putDemo(c *gin.Context) {
 // @Param token query string false "token"
 // @Param id path string true "要删除的id"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/demo/del/{id} [delete]
 func delDemo(c *gin.Context) {
 	id := c.Params.ByName("id")

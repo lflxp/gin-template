@@ -31,6 +31,7 @@ func RegisterAdmin(router *gin.Engine) {
 // @Param user path string true "用户名"
 // @Param pwd path string true "密码"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/auth/verify/{user}/{pwd} [get]
 func GetAuthVerify(c *gin.Context) {
 	user := c.Params.ByName("user")
@@ -72,6 +73,7 @@ func GetAuthVerify(c *gin.Context) {
 // @Tags Admin
 // @Param token query string false "token"
 // @Success 200 {string} string "success"
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/auth/all [get]
 func GetAllAuth(c *gin.Context) {
 	data, err := model.GetAuth()
@@ -94,6 +96,7 @@ func GetAllAuth(c *gin.Context) {
 // @Param token query string false "token"
 // @Param data body model.Auth true "data"
 // @Success 200 {object} model.Auth model.Auth{}
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/auth/add [post]
 func AddAuth(c *gin.Context) {
 	var data model.Auth
@@ -125,6 +128,7 @@ func AddAuth(c *gin.Context) {
 // @Param id path string true "更新的目标auth id"
 // @Param data body model.Auth true "data"
 // @Success 200 {object} model.Auth model.Auth{}
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/auth/update/{id} [put]
 func PutAuth(c *gin.Context) {
 	id := c.Params.ByName("id")
@@ -160,6 +164,7 @@ func PutAuth(c *gin.Context) {
 // @Param token query string false "token"
 // @Param id path string true "更新的目标auth id"
 // @Success 200 {string} string success!
+// @Security ApiKeyAuth
 // @Router /api/v1/admin/auth/del/{id} [delete]
 func DelAuth(c *gin.Context) {
 	id := c.Params.ByName("id")

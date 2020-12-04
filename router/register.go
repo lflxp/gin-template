@@ -35,4 +35,6 @@ func PreGinServe(r *gin.Engine) {
 	controller.RegisterClaims(r)
 	// 注册auth接口
 	controller.RegisterAuth(r)
+	// 注册nav接口
+	controller.RegisterPageRight(r)
 }
