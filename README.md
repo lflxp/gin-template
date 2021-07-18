@@ -26,6 +26,9 @@
         * [x] 缓存
             * [x] ConcurrentMap
     * [x] main.go 项目启动入口文件
+    * [x] CLI读取配置文件
+      * [x] Cobra
+      * [x] Viper
 * [ ] 内置前端界面管理模块
     * [ ] 前端动态页面权限
     * [ ] 基于jwt的前后端接口联调功能

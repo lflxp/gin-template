@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	jwt "github.com/appleboy/gin-jwt"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	mjwt "github.com/lflxp/gin-template/middlewares/jwt"
 	"github.com/lflxp/gin-template/model"
